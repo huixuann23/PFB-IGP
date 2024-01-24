@@ -1,7 +1,7 @@
 from pathlib import Path
 import csv
 
-def CashOnHand():
+def Cash_On_Hand():
     # Creates a file path to csv file.
     fp = Path.cwd()/"csv_reports"/"Cash_on_Hand.csv"
 
@@ -11,7 +11,7 @@ def CashOnHand():
     # Read the csv file.
     with fp.open(mode="r", encoding="UTF-8", newline="") as file:
         reader = csv.reader(file)
-        next(reader) # skip header
+        next(reader) # skip header.
 
         # Create an empty list for cash on hand.
         cash_on_hand_record= []
@@ -26,45 +26,45 @@ def CashOnHand():
 
     # print(cash_on_hand_record)
 
-    # Iterate over the list to calculate the day-to-day cash differences
+    # Iterate over the list to calculate the day-to-day cash differences.
     daily_differences = []
 
     for i in range(1, len(cash_on_hand_record)):
         current_day, current_cash = cash_on_hand_record[i]
         previous_day, previous_cash = cash_on_hand_record[i - 1]
 
-        # Calculate the difference
+        # Calculate the difference.
         difference = round(current_cash - previous_cash)
         daily_differences.append([current_day, difference])
 
     # print(daily_differences)
 
-    # Initialize variables for analysis
+    # Initialize variables for analysis.
     highest_surplus = 0
     highest_surplus_day = 0
     highest_deficit = 0
     highest_deficit_day = 0
     deficits = []
 
-    # Analyze the daily differences
+    # Analyze the daily differences.
     for record in daily_differences:
         day, difference = record
 
-        # Check if the cash-on-hand is always increasing or decreasing
+        # Check if the cash-on-hand is always increasing or decreasing.
         if difference < 0:
-            deficits.append((day, difference))  # Add to deficits if it's a negative difference
+            deficits.append((day, difference))  # Add to deficits if it's a negative difference.
             if difference < highest_deficit:
-                highest_deficit = difference
-                highest_deficit_day = day
+                highest_deficit = difference # Replace the highest deficit with the new highest difference.
+                highest_deficit_day = day # Replace the highest deficit day with the new highest difference day.
         elif difference > 0:
             if difference > highest_surplus:
-                highest_surplus = difference
-                highest_surplus_day = day
+                highest_surplus = difference # Replace the highest surplus with the new highest difference.
+                highest_surplus_day = day # Replace the highest surplus day with the new highest difference day.
 
     def get_deficit_amount(deficits):
         """
         - Extract the deficit amount from the deficit record.
-        - Returns the deficit amount which is the second item in each record
+        - Returns the deficit amount which is the second item in each record.
         """
         return deficits[1]
 
@@ -76,24 +76,24 @@ def CashOnHand():
         deficits.sort(key=get_deficit_amount)
         return deficits[0:3]
 
-    # Determine if cash-on-hand is always increasing or always decreasing
+    # Determine if cash-on-hand is always increasing or always decreasing.
     always_increasing = highest_deficit == 0
     always_decreasing = highest_surplus == 0
 
     # Creates a string to store the final results.
     final_cash_on_hand = ""
 
-    # Scenario 1: Cash-on-hand is always increasing
+    # Scenario 1: Cash-on-hand is always increasing.
     if  always_increasing:
         final_cash_on_hand += f"[CASH SURPLUS] CASH ON EACH DAY IS HIGHER THAN THE PREVIOUS DAY\n"
         final_cash_on_hand += f"[HIGHEST CASH SURPLUS] DAY: {highest_surplus_day}, AMOUNT: SGD{highest_surplus}\n"
 
-    # Scenario 2: Cash-on-hand is always decreasing
+    # Scenario 2: Cash-on-hand is always decreasing.
     elif always_decreasing:
         final_cash_on_hand += f"[CASH DEFICIT] CASH ON EACH DAY IS LOWER THAN THE PREVIOUS DAY\n"
         final_cash_on_hand += f"[HIGHEST CASH DEFICIT] DAY: {highest_deficit_day}, AMOUNT: SGD{highest_deficit}\n"
 
-    # Scenario 3: Cash-on-hand fluctuates
+    # Scenario 3: Cash-on-hand fluctuates.
     else:
         for item in deficits:
             day, deficit = item
