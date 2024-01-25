@@ -120,3 +120,13 @@ def Profit_And_Loss():
             final_profit_and_loss += f"[3RD HIGHEST NET PROFIT DEFICIT] DAY: {top_3_deficits[2][0]}, AMOUNT: SGD{-top_3_deficits[2][1]}\n"
 
     return final_profit_and_loss
+
+# Setup the filepath for writing results to a text file named "summary_report.txt"
+fp_write = Path.cwd() / "summary_report.txt"
+
+# Call the function to get the profit and loss data.
+Profit_And_Loss_data = Profit_And_Loss()
+
+# Write the data to the file.
+with fp_write.open(mode="a", encoding="UTF-8") as file:
+    file.write(Profit_And_Loss_data)

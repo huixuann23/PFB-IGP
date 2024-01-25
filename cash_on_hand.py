@@ -105,3 +105,13 @@ def Cash_On_Hand():
         final_cash_on_hand += f"[3RD HIGHEST CASH DEFICIT] DAY: {top_3_deficits[2][0]}, AMOUNT: SGD{-top_3_deficits[2][1]}\n"
 
     return final_cash_on_hand
+
+# Setup the filepath for writing results to a text file named "summary_report.txt"
+fp_write = Path.cwd() / "summary_report.txt"
+
+# Call the function to get the cash on hand data.
+Cash_On_Hand_data = Cash_On_Hand()
+
+# Write the data to the file.
+with fp_write.open(mode="a", encoding="UTF-8") as file:
+    file.write(Cash_On_Hand_data)

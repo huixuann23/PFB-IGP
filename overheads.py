@@ -43,3 +43,13 @@ def overhead():
     final_highest_overhead = f"[HIGHEST OVERHEAD] {highest_category}: {highest_overhead}%"
 
     return final_highest_overhead
+
+# Setup the filepath for writing results to a text file named "summary_report.txt"
+fp_write = Path.cwd() / "summary_report.txt"
+
+# Call the function to get the overhead data.
+overhead_data = overhead()
+
+# Write the data to the file.
+with fp_write.open(mode="w", encoding="UTF-8") as file:
+    file.write(overhead_data +"\n")
